@@ -1,10 +1,8 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup as bs
-from random import randint
-from time import sleep
-import re
 import csv
+from alive_progress import alive_bar
 
 base_url = "https://www.bookdepository.com/search?searchSortBy=popularity&format=1&advanced=true&page="
 url = ['https://www.bookdepository.com/search?format=1&price=low&searchSortBy=popularity&advanced=true&page=',
@@ -54,13 +52,15 @@ def get_book_data(url, headers):
     rating = clean_up(rating)
 
     num_rating = soup.find(itemprop = "ratingCount").get('content')
-
-    price = soup.find(class_ = "sale-price").text
+    try:
+        price = soup.find(class_ = "sale-price").text
+    except:
+        price = soup.find(class_ = "list-price").text
 
     price = price.split(' ')
 
     price = price[-1]
-
+    
     price = float(price)
 
     author = soup.find(itemprop = "author").text
@@ -102,16 +102,24 @@ def scrape_books(url, headers):
         writer = csv.writer(f)
         writer.writerow(csv_headers)
         for link in url:
-            for i in range(1,334):
-                book_links = scrape_page(link+str(i), headers)
-                for book in book_links:
-                    try:
-                        book_data = get_book_data("https://www.bookdepository.com/" + book, headers)
-                        if book_data:
-                            writer.writerow(book_data)
-                            print(book_data)
-                    except:
-                        print("Problem in data: skipping Book")
+            with alive_bar(29970) as bar:
+                for i in range(1,334):
+                    
+                    book_links = scrape_page(link+str(i), headers)
+                    for book in book_links:
+                        bar()
+                        try:
+                            book_data = get_book_data("https://www.bookdepository.com/" + book, headers)
+                            if book_data:
+                                writer.writerow(book_data)
+                                # print(book_data)
+                        except Exception as e:
+                            print(e)
+                            print("Problem in data: skipping Book")
+                            print(book)
+
 
 
 scrape_books(url, headers)
+# url_header = "https://www.bookdepository.com/"
+# print(get_book_data(url_header+"/Afterwards-Rosamund-Lupton/9780749942168?ref=grid-view&qid=1645644883292&sr=1-589",headers))
