@@ -46,12 +46,17 @@ def get_book_data(url, headers):
     title = soup.find(itemprop = "name").text
 
     title = clean_up(title)
+    try:
+        rating = soup.find(itemprop = "ratingValue").text
 
-    rating = soup.find(itemprop = "ratingValue").text
+        rating = clean_up(rating)
 
-    rating = clean_up(rating)
+        num_rating = soup.find(itemprop = "ratingCount").get('content')
+    except:
+        rating = '0.0'
+        num_rating = 0
 
-    num_rating = soup.find(itemprop = "ratingCount").get('content')
+
     try:
         price = soup.find(class_ = "sale-price").text
     except:
@@ -69,9 +74,13 @@ def get_book_data(url, headers):
     except:
         author = "Unauthored"
     
-    language = soup.find(itemprop = "inLanguage").text
+    try:
+        language = soup.find(itemprop = "inLanguage").text
 
-    language = clean_up(language)
+        language = clean_up(language)
+    except:
+        language = "English"
+
 
     num_pages = clean_up(soup.find(itemprop = "numberOfPages").text)
 
@@ -106,22 +115,27 @@ def scrape_books(url, headers):
         for link in url:
             with alive_bar(29970) as bar:
                 for i in range(1,334):
-                    
                     book_links = scrape_page(link+str(i), headers)
                     for book in book_links:
                         bar()
-                        try:
-                            book_data = get_book_data("https://www.bookdepository.com/" + book, headers)
-                            if book_data:
-                                writer.writerow(book_data)
-                                # print(book_data)
-                        except Exception as e:
-                            print(e)
-                            print("Problem in data: skipping Book")
-                            print(book)
+                        for j in range(5):
+                            try:
+                                book_data = get_book_data("https://www.bookdepository.com/" + book, headers)
+                                if book_data:
+                                    writer.writerow(book_data)
+                                    # print(book_data)
+                                break
+                            except Exception as e:
+                                if j == 4:
+                                    print(e)
+                                    print("Problem in Book data")
+                                    print(book)
+                                    print("Skipping Book")
+
+
 
 
 
 scrape_books(url, headers)
 # url_header = "https://www.bookdepository.com/"
-# print(get_book_data(url_header+"/Harry-Potter-Magical-Creatures-Colouring-Book/9781783705825?ref=grid-view&qid=1645646235723&sr=1-957",headers))
+# print(get_book_data(url_header+"/Dinosaur-Sticker-Activity-Book-G-Smith/9780486400532?ref=grid-view&qid=1645653534642&sr=1-1258",headers))
