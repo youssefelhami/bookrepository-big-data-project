@@ -63,10 +63,12 @@ def get_book_data(url, headers):
     
     price = float(price)
 
-    author = soup.find(itemprop = "author").text
-
-    author = clean_up(author)
-
+    try:
+        author = soup.find(itemprop = "author").text
+        author = clean_up(author)
+    except:
+        author = "Unauthored"
+    
     language = soup.find(itemprop = "inLanguage").text
 
     language = clean_up(language)
@@ -122,4 +124,4 @@ def scrape_books(url, headers):
 
 scrape_books(url, headers)
 # url_header = "https://www.bookdepository.com/"
-# print(get_book_data(url_header+"/Afterwards-Rosamund-Lupton/9780749942168?ref=grid-view&qid=1645644883292&sr=1-589",headers))
+# print(get_book_data(url_header+"/Harry-Potter-Magical-Creatures-Colouring-Book/9781783705825?ref=grid-view&qid=1645646235723&sr=1-957",headers))
