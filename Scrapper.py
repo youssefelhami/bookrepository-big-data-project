@@ -62,11 +62,12 @@ def get_book_data(url, headers):
     except:
         price = soup.find(class_ = "list-price").text
 
+
     price = price.split(' ')
 
     price = price[-1]
     
-    price = float(price)
+    price = float(price.replace(",",""))
 
     try:
         author = soup.find(itemprop = "author").text
@@ -108,13 +109,14 @@ def get_book_data(url, headers):
 def scrape_books(url, headers):
     
     book_links = []
+    canceled_links = []
     csv_headers = ["isbn", "title", "author", "price", "language", "num_pages", "date", "rating", "num_rating", "category 1", "category 2", "category 3"]
     with open('AllBooksDataset.csv', 'w', newline='', encoding='UTF8') as f:
         writer = csv.writer(f)
         writer.writerow(csv_headers)
         for link in url:
-            with alive_bar(29970) as bar:
-                for i in range(1,334):
+            with alive_bar(9990) as bar:
+                for i in range(333,334):
                     book_links = scrape_page(link+str(i), headers)
                     for book in book_links:
                         bar()
@@ -123,7 +125,7 @@ def scrape_books(url, headers):
                                 book_data = get_book_data("https://www.bookdepository.com/" + book, headers)
                                 if book_data:
                                     writer.writerow(book_data)
-                                    # print(book_data)
+                                    print(book_data)
                                 break
                             except Exception as e:
                                 if j == 4:
@@ -131,6 +133,8 @@ def scrape_books(url, headers):
                                     print("Problem in Book data")
                                     print(book)
                                     print("Skipping Book")
+                                    canceled_links.append(book)
+        print(canceled_links)
 
 
 
