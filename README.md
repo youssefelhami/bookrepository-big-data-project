@@ -24,7 +24,7 @@ Allow Docker a few minutes to spin up all the containers.
     
 - Create the hive table by using the command:
 
-		$ hive -f employee_table.hql
+		$ hive -f reviews_table.hql
 
 - Add the data into the table:
 
