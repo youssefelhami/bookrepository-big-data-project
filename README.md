@@ -14,30 +14,31 @@ Allow Docker a few minutes to spin up all the containers.
 
 - Then Log onto the Hive servet by using the command:
 
-    $ docker exec -it hive-server /bin/bash
+		$ docker exec -it hive-server /bin/bash
 
 - Then navigate to the reviews folder
 
-    $ cd ..
-    $ cd reviews/
+		$ cd ..
+    
+		$ cd reviews/
     
 - Create the hive table by using the command:
 
-    $ hive -f employee_table.hql
+		$ hive -f employee_table.hql
 
 - Add the data into the table:
 
-    $ hadoop fs -put employee.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
+		$ hadoop fs -put employee.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
     
 - launch hive by using:
-    
-    $ hive
+		$ hive
     
 - enter the Database
 
-    > use testdb;
+		> use testdb;
 
-You are now inside the database and you can use HQL to make Queries
+- You are now inside the database and you can use HQL to make Queries
 For example:
-    > select * from reviews where isbn = 9781401253462;
+		
+		> select * from reviews where isbn = 9781401253462;
 
