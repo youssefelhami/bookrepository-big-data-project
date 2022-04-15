@@ -28,9 +28,10 @@ Allow Docker a few minutes to spin up all the containers.
 
 - Add the data into the table:
 
-		$ hadoop fs -put employee.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
+		$ hadoop fs -put reviews.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
     
 - launch hive by using:
+		
 		$ hive
     
 - enter the Database
