@@ -30,11 +30,11 @@ Allow Docker a few minutes to spin up all the containers.
 
 		$ hadoop fs -put reviews.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
     
-- launch hive by using:
+- Launch hive by using:
 		
 		$ hive
     
-- enter the Database
+- Enter the Database
 
 		> use testdb;
 
