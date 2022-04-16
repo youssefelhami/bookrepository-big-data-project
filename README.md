@@ -1,6 +1,6 @@
 # BookRepository/Goodreads Big Data Project
 
-If you want to see the scraped csv file, check the data backup folder.
+If you want to see the scraped books csv file, check the data backup folder. If you want to see the reviews data, a sample of 20k reviews are in the Hive/reviews folder. The other csv files are temporary files created/used by the Scrapping code so they're not consistent.
 
 ## Setting Up Hive
 To be able to handle the textual data (reviews), due to the size of the Dataset, we chose to use Apache Hive (Through a Docker container).
