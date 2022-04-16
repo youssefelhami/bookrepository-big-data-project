@@ -18,21 +18,21 @@ Allow Docker a few minutes to spin up all the containers.
 
 - Then navigate to the reviews folder
 
-		$ cd ..
+		# cd ..
     
-		$ cd reviews/
+		# cd reviews/
     
 - Create the hive table by using the command:
 
-		$ hive -f reviews_table.hql
+		# hive -f reviews_table.hql
 
 - Add the data into the table:
 
-		$ hadoop fs -put reviews.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
+		# hadoop fs -put reviews.csv hdfs://namenode:8020/user/hive/warehouse/testdb.db/reviews
     
 - Launch hive by using:
 		
-		$ hive
+		# hive
     
 - Enter the Database
 
