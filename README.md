@@ -59,3 +59,8 @@ For example:
 		
 		> select * from reviews where isbn = 9781401253462;
 
+
+
+Don't forget to close the Docker Containers after you're done by using the command:
+
+		$ docker-compose down
