@@ -180,7 +180,7 @@ def scrape_books(url, headers):
                             except Exception as e:
                                 #it contains a list of the missed books and the error if we want to use it to further perfect the scraping
                                 if j == 4:
-                                    canceled_links.append((book),e) 
+                                    canceled_links.append(book) 
 
 
 

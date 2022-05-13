@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup as bs
 import csv
 from alive_progress import alive_bar
 import pandas as pd
+import numpy as np
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 
@@ -55,19 +56,19 @@ book_id = [ID for ID in df['isbn']]
 
 
 def get_cat(id):
-    bk = df.loc[df['isbn'] == id]
     print(id)
-    cats = bk['category 1'].tolist()
-    if len(cats) == 0:
-        return None
-    return cats[0]
+    cats = []
+    for i in range(df.shape[0]):
+        if str(df['isbn'].iloc[i]) == id:
+            return df['category_1'].iloc[i]
+    return None
+
 
 if __name__ == '__main__':
     p = Pool(cpu_count())
     total = total + p.map(get_reviews, book_id)
     p.terminate()
     p.join()
-    print(total)
     print("Scraping finished")
     print(len(total))
     final = []
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     reviewsDF = reviewsDF.replace(r'\n',  ' ', regex=True)
     reviewsDF = reviewsDF.replace(r',',  ' ', regex=True)
     cats = reviewsDF['book'].apply(get_cat)
-    reviewsDF['category'] = cats.tolist()
+    reviewsDF['category'] = cats
     reviewsDF.to_csv("ReviewsDS.csv",encoding='utf-8', index=False, header=False)
     print("Saved in csv")
 
